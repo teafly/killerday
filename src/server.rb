@@ -23,9 +23,9 @@ get '/access_token' do
   getAccessToken()
 end
 
-get '/wx_callback' do |echostr|
+get '/wx_callback' do
   
-  echostr
+  echostr = params['echostr']
 end
 
 get '/msg' do
