@@ -23,6 +23,11 @@ get '/access_token' do
   getAccessToken()
 end
 
+get 'wx_callback' do
+  
+  puts "callback success!"
+end
+
 get '/msg' do
 
   pushMsg("zhuwang test by server", "zhuwang")
