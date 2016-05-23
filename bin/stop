@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+pushd `dirname $0`/.. > /dev/null
+popd > /dev/null
+BASE=$(cd `dirname $0`/..; pwd)
+OUTPUT=/tmp
+
+thin stop -R $BASE/conf/config.ru -l $OUTPUT/log/server.log -P $OUTPUT/pid/server.pid
