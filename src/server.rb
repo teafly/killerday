@@ -9,7 +9,7 @@ def getAccessToken
 
   uri = URI("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx60f0179a53a30de9&corpsecret=6jHA-1BeiK-hXMkttZb5Wr604U7G9KFbpdz6LyNhnCcKVUrS5rhafNLxGxf9i7E2")
   req = Net::HTTP::Get.new(uri)
-  https = Net::HTTP.new(uri.host,uri.port)
+  https = Net::HTTP.new(uri.host, uri.port)
   https.use_ssl = true
   res = JSON.parse(https.request(req).body)
   res['access_token']
