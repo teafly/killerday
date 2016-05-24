@@ -101,7 +101,9 @@ end
 def handleText(userId, xml)
 
   user = findUser(userId)
-  pushMsg("#{user['name']}, 欢迎来到杀人派! 您刚才发的消息是: ", xml.css("Content").first.content, userId)
+  userName = user['name']
+  msg = xml.css('Content').first.content
+  pushMsg("#{userName}, 欢迎来到杀人派! 您刚才发的消息是: #{msg}", userId)
 end
 
 def handleEvent(userId, xml)
