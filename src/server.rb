@@ -43,13 +43,12 @@ end
 post '/wx_callback' do
   
   request.body.rewind
-  msg_signature = params['msg_signature']
   timestamp = params['timestamp']
   nonce = params['nonce']
   req_data = request.body.read
 
   stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXDecryptMsg.py", 
-    msg_signature, timestamp, nonce, req_data)
+    timestamp, nonce, req_data)
   ret = stdout.gets.strip
   puts msg_signature, timestamp, nonce, ret
   return ret
