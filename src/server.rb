@@ -5,6 +5,7 @@ require 'json'
 require 'net/http'
 require 'net/https'
 require 'open3'
+require 'nokogiri'
 
 def getAccessToken
 
@@ -30,7 +31,7 @@ get '/wx_callback' do
   timestamp = params['timestamp']
   nonce = params['nonce']
   echostr = params['echostr']
-  puts msg_signature, timestamp, nonce, echostr
+  #puts msg_signature, timestamp, nonce, echostr
 
   stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXVerifyURL.py", 
     msg_signature, timestamp, nonce, echostr)
@@ -46,13 +47,14 @@ post '/wx_callback' do
   timestamp = params['timestamp']
   nonce = params['nonce']
   req_data = request.body.read
-  puts msg_signature, timestamp, nonce, req_data
+  #puts msg_signature, timestamp, nonce, req_data
 
   stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXDecryptMsg.py", 
     msg_signature, timestamp, nonce, req_data)
-  ret = stdout.gets
+  ret = stdout.readlines.join
   puts ret
-  return ret.strip
+
+  return handleCallback(Nokogiri::XML(ret))
 end
 
 get '/msg' do
@@ -63,7 +65,7 @@ end
 
 def pushMsg(msg, userIds = nil, partyIds = nil)
 
-  post_wx("https://qyapi.weixin.qq.com/cgi-bin/message/send?", {
+  postWX("https://qyapi.weixin.qq.com/cgi-bin/message/send?", {
       touser: userIds,
       toparty: partyIds,
       msgtype: "text",
@@ -75,7 +77,18 @@ def pushMsg(msg, userIds = nil, partyIds = nil)
   })
 end
 
-def post_wx(baseUri, body = nil, validToken = true)
+def handleCallback(xml)
+
+  type = xml.css("MsgType").first.content
+
+  case type
+  when "text"
+    pushMsg(xml.css("Content").first.content, "zhuwang")
+    return nil
+  end
+end
+
+def postWX(baseUri, body = nil, validToken = true)
 
   uri = URI(baseUri + "&access_token=" + $token)
   req = Net::HTTP::Post.new(uri)
@@ -85,12 +98,12 @@ def post_wx(baseUri, body = nil, validToken = true)
   res = JSON.parse(https.request(req).body)
   if validToken && res["errcode"] == 40014
     $token = getAccessToken()
-    post_wx(baseUri, body, false)
+    postWX(baseUri, body, false)
   end
   return res
 end
 
-def get_wx(baseUri, validToken = true)
+def getWX(baseUri, validToken = true)
 
   uri = URI(baseUri + "&access_token=" + $token)
   req = Net::HTTP::Get.new(uri)
@@ -100,7 +113,7 @@ def get_wx(baseUri, validToken = true)
   res = JSON.parse(https.request(req).body)
   if validToken && res["errcode"] == 40014
     $token = getAccessToken()
-    get_wx(baseUri, false)
+    getWX(baseUri, false)
   end
   return res
 end
