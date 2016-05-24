@@ -79,7 +79,7 @@ end
 
 def handleCallback(xml)
 
-  user = xml.css("ToUserName").first.content
+  user = xml.css("FromUserName").first.content
   type = xml.css("MsgType").first.content
 
   case type
