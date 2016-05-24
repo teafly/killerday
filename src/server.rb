@@ -57,7 +57,7 @@ post '/wx_callback' do
   return handleCallback(Nokogiri::XML(ret))
 end
 
-get '/msg' do
+get '/msg_test' do
 
   pushMsg("zhuwang test by server", "zhuwang")
 end
@@ -75,17 +75,38 @@ def pushMsg(msg, userIds = nil, partyIds = nil)
       },
       safe: "0"
   })
+  return nil
 end
 
 def handleCallback(xml)
 
-  user = xml.css("FromUserName").first.content
   type = xml.css("MsgType").first.content
+  user = xml.css("FromUserName").first.content
 
   case type
   when "text"
-    pushMsg(xml.css("Content").first.content, user)
-    return nil
+
+    return handleText(user, xml)
+  when "event"
+
+    return handleEvent(user, xml)
+  end
+end
+
+def handleText(user, xml)
+
+  pushMsg(xml.css("Content").first.content, user)
+end
+
+def handleEvent(user, xml)
+
+  event = xml.css("Event").first.content
+
+  case event
+  when "subscribe"
+    return pushMsg("恭喜您订阅成功!", user)
+  when "unsubscribe"
+    return pushMsg("有空再来玩哦!", user)
   end
 end
 
