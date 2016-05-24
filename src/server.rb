@@ -25,8 +25,11 @@ end
 
 get '/wx_callback' do
   
+  msg_signature = params['msg_signature']
+  timestamp = params['timestamp']
+  nonce = params['nonce']
   echostr = params['echostr']
-  puts echostr
+  puts msg_signature, timestamp, nonce, echostr
 end
 
 get '/msg' do
