@@ -25,6 +25,11 @@ get '/access_token' do
   getAccessToken()
 end
 
+get '/find_user' do
+
+  findUser(params['id']).to_s
+end
+
 get '/wx_callback' do
   
   msg_signature = params['msg_signature']
@@ -112,9 +117,9 @@ def handleEvent(userId, xml)
 
   case event
   when "subscribe"
-    return pushMsg("恭喜您订阅成功!", user)
+    return pushMsg("恭喜您订阅成功!", userId)
   when "unsubscribe"
-    return pushMsg("有空再来玩哦!", user)
+    return pushMsg("有空再来玩哦!", userId)
   end
 end
 
