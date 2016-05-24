@@ -16,8 +16,8 @@ if __name__ == "__main__":
 
    wxcpt=WXBizMsgCrypt(sToken,sEncodingAESKey,sCorpID)
 
-   ret,sEchoStr=wxcpt.VerifyURL(sVerifyMsgSig, sVerifyTimeStamp,sVerifyNonce,sVerifyEchoStr)
-   if(ret!=0):
+   ret,sEchoStr = wxcpt.VerifyURL(sVerifyMsgSig, sVerifyTimeStamp,sVerifyNonce,sVerifyEchoStr)
+   if(ret != 0):
       print -1
       sys.exit(1)
    print sEchoStr
