@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import WXBizMsgCryptTool
+from WXBizMsgCryptTool import *
 import sys
 if __name__ == "__main__":   
 
