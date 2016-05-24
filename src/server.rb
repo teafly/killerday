@@ -50,9 +50,9 @@ post '/wx_callback' do
 
   stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXDecryptMsg.py", 
     msg_signature, timestamp, nonce, req_data)
-  ret = stdout.gets.strip
+  ret = stdout.gets
   puts ret
-  return ret
+  return ret.strip
 end
 
 get '/msg' do

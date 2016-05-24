@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
    wxcpt = generateWXCpt()
 
-   ret,sMsg=wxcpt.DecryptMsg(sReqData, sReqMsgSig, sReqTimeStamp, sReqNonce)
+   ret,sMsg = wxcpt.DecryptMsg(sReqData, sReqMsgSig, sReqTimeStamp, sReqNonce)
    if( ret != 0 ):
       print -1
       sys.exit(1)
