@@ -33,6 +33,7 @@ get '/wx_callback' do
   echostr = params['echostr']
   ret = exec("python WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
   puts "ret: " + ret
+  return ret
 end
 
 get '/msg' do
