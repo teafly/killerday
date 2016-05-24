@@ -79,11 +79,12 @@ end
 
 def handleCallback(xml)
 
+  user = xml.css("ToUserName").first.content
   type = xml.css("MsgType").first.content
 
   case type
   when "text"
-    pushMsg(xml.css("Content").first.content, "zhuwang")
+    pushMsg(xml.css("Content").first.content, user)
     return nil
   end
 end
