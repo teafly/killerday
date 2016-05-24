@@ -26,8 +26,6 @@ end
 
 get '/wx_callback' do
   
-  token = "0C72wGwIv"
-  aec_key = "1JvFzJKvPrftib6EtBQ5DyXPbrSB7fUQ6oJs36aPjNh"
   msg_signature = params['msg_signature']
   timestamp = params['timestamp']
   nonce = params['nonce']
@@ -35,7 +33,7 @@ get '/wx_callback' do
   puts msg_signature, timestamp, nonce, echostr
 
   stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXVerifyURL.py", 
-    token, aec_key, msg_signature, timestamp, nonce, echostr)
+    msg_signature, timestamp, nonce, echostr)
   ret = stdout.gets.strip
   puts ret
   return ret

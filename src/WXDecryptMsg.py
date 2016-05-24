@@ -5,8 +5,6 @@ import WXBizMsgCryptTool
 import sys
 if __name__ == "__main__":   
 
-   sCorpID = "wx60f0179a53a30de9"
-
    sReqMsgSig = sys.argv[1]
    sReqTimeStamp = sys.argv[2]
    sReqNonce = sys.argv[3]
