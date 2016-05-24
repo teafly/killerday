@@ -33,7 +33,7 @@ get '/wx_callback' do
   nonce = params['nonce']
   echostr = params['echostr']
 
-  stdin, stdout, stderr, s = Open3.popen3("python /home/admin/work/killerday/src/WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
+  stdin, stdout, stderr, s = Open3.popen3("python", "/home/admin/work/killerday/src/WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
   ret = stdout.gets.strip
   puts msg_signature, timestamp, nonce, echostr, ret
   return ret
