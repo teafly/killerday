@@ -31,8 +31,8 @@ get '/wx_callback' do
   timestamp = params['timestamp']
   nonce = params['nonce']
   echostr = params['echostr']
-  ret = exec("python WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
-  puts "ret: " + ret
+  ret = exec("python /home/admin/work/killerday/src/WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
+  puts msg_signature, timestamp, nonce, echostr, ret
   return ret
 end
 
