@@ -59,7 +59,7 @@ end
 
 get '/msg_test' do
 
-  pushMsg("zhuwang test by server", "zhuwang")
+  pushMsg("zhuwang test by server", "ZhuWang")
 end
 
 
@@ -78,27 +78,33 @@ def pushMsg(msg, userIds = nil, partyIds = nil)
   return nil
 end
 
+def findUser(userId)
+
+  getWX("https://qyapi.weixin.qq.com/cgi-bin/user/get?userid=" + userId)
+end
+
 def handleCallback(xml)
 
   type = xml.css("MsgType").first.content
-  user = xml.css("FromUserName").first.content
+  userId = xml.css("FromUserName").first.content
 
   case type
   when "text"
 
-    return handleText(user, xml)
+    return handleText(userId, xml)
   when "event"
 
-    return handleEvent(user, xml)
+    return handleEvent(userId, xml)
   end
 end
 
-def handleText(user, xml)
+def handleText(userId, xml)
 
-  pushMsg(xml.css("Content").first.content, user)
+  user = findUser(userId)
+  pushMsg("#{user['name']}, 欢迎来到杀人派! 您刚才发的消息是: ", xml.css("Content").first.content, userId)
 end
 
-def handleEvent(user, xml)
+def handleEvent(userId, xml)
 
   event = xml.css("Event").first.content
 
