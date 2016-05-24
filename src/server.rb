@@ -25,11 +25,14 @@ end
 
 get '/wx_callback' do
   
+  token = "0C72wGwIv"
+  aec_key = "1JvFzJKvPrftib6EtBQ5DyXPbrSB7fUQ6oJs36aPjNh"
   msg_signature = params['msg_signature']
   timestamp = params['timestamp']
   nonce = params['nonce']
   echostr = params['echostr']
-  puts msg_signature, timestamp, nonce, echostr
+  ret = exec("python WXVerifyURL.py", token, aec_key, msg_signature, timestamp, nonce, echostr)
+  puts "ret: " + ret
 end
 
 get '/msg' do
