@@ -26,6 +26,7 @@ end
 get '/wx_callback' do
   
   echostr = params['echostr']
+  puts echostr
 end
 
 get '/msg' do
