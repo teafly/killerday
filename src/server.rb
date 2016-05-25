@@ -133,7 +133,7 @@ def postWX(baseUri, body = nil, validToken = true)
   res = JSON.parse(https.request(req).body)
   if validToken && res["errcode"] == 40014
     $token = getAccessToken()
-    postWX(baseUri, body, false)
+    res = postWX(baseUri, body, false)
   end
   return res
 end
@@ -148,7 +148,7 @@ def getWX(baseUri, validToken = true)
   res = JSON.parse(https.request(req).body)
   if validToken && res["errcode"] == 40014
     $token = getAccessToken()
-    getWX(baseUri, false)
+    res = getWX(baseUri, false)
   end
   return res
 end
